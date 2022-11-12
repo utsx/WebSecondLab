@@ -11,13 +11,17 @@ public class Point {
     private final String date;
     private final Boolean inArea;
 
-    public Point(String x, String y, String r) {
+    private String workTime;
+
+    public Point(String x, String y, String r){
+        long start = System.nanoTime();
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
         this.r = Double.parseDouble(r);
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
         this.date = format.format(new java.sql.Timestamp(System.currentTimeMillis()));
         inArea = checkArea();
+        this.workTime = ((double)(System.nanoTime() - start)/1000000) + "";
     }
 
 
@@ -40,7 +44,7 @@ public class Point {
 
     private boolean checkAreaInTheThirdCoordinatePlane() {
         if(x <= 0 && x >= -r / 2 && y <= 0 && y >= -r) {
-            return y >= - 2 * x + r;
+            return y >= - 2 * x - r;
         }
         return false;
     }
@@ -59,14 +63,19 @@ public class Point {
                 "\"x\": " + x +
                 ",\n\"y\": " + y +
                 ", \n\"r\": " + r +
-                ", \n\"date\":" + "\"" +date.toString() + "\"" +
+                ", \n\"date\":" + "\"" +date + "\"" +
                 ", \n\"inArea\":" + ""+inArea+"" +
+                ", \n\"workTime\":" + ""+workTime+"" +
                 '}';
     }
 
 
     public double getX() {
         return x;
+    }
+
+    public String getWorkTime() {
+        return workTime;
     }
 
     public double getY() {

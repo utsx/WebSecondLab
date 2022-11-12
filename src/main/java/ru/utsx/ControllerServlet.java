@@ -6,8 +6,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import ru.utsx.classes.Point;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ControllerServlet extends HttpServlet {
 
@@ -30,6 +33,9 @@ public class ControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher indexDispatcher = req.getRequestDispatcher("/index.jsp");
+        HttpSession httpSession = req.getSession();
+        List<Point> points = (List<Point>) httpSession.getAttribute("points");
+        points.clear();
         indexDispatcher.forward(req, resp);
     }
 

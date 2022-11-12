@@ -1,5 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="ru.utsx.classes.Point" %>
+<%@ page import="java.io.PrintWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ru">
@@ -27,7 +28,7 @@
                 <div class="select_x">
                     <legend><b>Значение координаты X:</b></legend>
                     <select name="option_x" id="option_x">
-                        <option value="service">Выберите x от -2 до 2 с шагом 0.5</option>
+                        <option value="service">Выберите x от -2 до 2</option>
                         <option value="-2">-2</option>
                         <option value="-1.5">-1.5</option>
                         <option value="-1">-1</option>
@@ -55,6 +56,9 @@
                     <input type="submit" value="Отправить">
                     <input id="button_reset" type="button" value="Очистить">
                 </div>
+                <div id="error" class="my_error">
+
+                </div>
             </form>
         </td>
         <td>
@@ -73,20 +77,26 @@
                 </tr>
                 </thead>
                 <tbody class="history_table_body">
-                <% if(points != null) {for (Point point : points) {%>
+                <% if (points != null) {
+                    for (Point point : points) {%>
                 <tr>
-                    <td><%= point.getX() %>
+                    <td><%= (double) Math.round(point.getX() * 1000) / 1000 %>
                     </td>
-                    <td><%= point.getY() %>
+                    <td><%= (double) Math.round(point.getY() * 1000) / 1000 %>
                     </td>
-                    <td><%= point.getR() %>
+                    <td><%= (double) Math.round(point.getR() * 1000) / 1000 %>
                     </td>
                     <td><%= point.getInArea() ? "Да" : "Нет" %>
                     </td>
                     <td><%= point.getDate() %>
                     </td>
+                    <td><%= point.getWorkTime() + " ms"%>
+                    </td>
                 </tr>
-                <%}}%>
+                <%
+                        }
+                    }
+                %>
                 </tbody>
             </table>
         </td>

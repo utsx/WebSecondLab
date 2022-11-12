@@ -1,11 +1,12 @@
 $(document).ready(function () {
 
     $("#check_form").on('submit', function (e) {
+        $('#error').text("");
         e.preventDefault();
         const sel = document.getElementById("option_x");
         const X = sel.options[sel.selectedIndex].value;
-        if(!validationData($('input[name="R"]:checked').val(), $('input[name="Y"]').val(), X)) {
-            alert("Validation failed");
+        if(!validationData($('input[name="R"]:checked').val(), $('input[name="Y"]').val().replace(",", "."), X)) {
+            $('#error').text("Некорректные данные");
             return;
         }
         $.ajax({
@@ -14,7 +15,7 @@ $(document).ready(function () {
             data: {
                 'R': $('input[name="R"]:checked').val(),
                 'X': X,
-                'Y': $('input[name="Y"]').val()
+                'Y': $('input[name="Y"]').val().replace(",", ".")
             },
             success: createTableRow,
             dataType: "json"
@@ -30,6 +31,30 @@ $(document).ready(function () {
     }
 
 
+    $('.chart').click(function (e){
+        $('#error').text("");
+        const rect = this.getBoundingClientRect();
+        const x = (e.clientX - rect.left) - $('.chart').width()/2;
+        const y = $('.chart').width()/2 - (e.clientY - rect.top);
+        const R = $('input[name="R"]:checked').val();
+        const X = R * x / ($('.chart').width() * 80 / 200) ;
+        const Y = R * y / ($('.chart').width() * 80 / 200);
+        if (R === undefined) {
+            $('#error').text("Проверьте, что R выбран");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "index",
+            data: {
+                'R': $('input[name="R"]:checked').val(),
+                'X': X,
+                'Y': Y
+            },
+            success: createTableRow,
+            dataType: "json"
+        })
+    })
 
     function isValidX(x){
         if (x === null || x === "" || x === "service") {
@@ -56,16 +81,25 @@ $(document).ready(function () {
     }
 
     function createTableRow(json_object){
-        document.querySelector(".history_table_body").innerHTML += `
+        console.log(json_object);
+        $(".history_table_body").prepend(`
 			<tr>
-				<td>${new Number(json_object.x).toPrecision(2)}</td>
-				<td>${new Number(json_object.y).toPrecision(2)}</td>
-				<td>${new Number(json_object.r).toPrecision(2)}</td>
+				<td>${new Number(json_object.x).toPrecision(4)}</td>
+				<td>${new Number(json_object.y).toPrecision(4)}</td>
+				<td>${new Number(json_object.r).toPrecision(4)}</td>
 				<td>${json_object.inArea ? "Да" : "Нет" }</td>
 	            <td>${json_object.date}</td>
+	            <td>${json_object.workTime + " ms"}</td>
 			</tr>
-			`;
+        `);
     }
+    $("#button_reset").on('click', function(e){
+        $('.history_table_body').html("");
+        $.ajax({
+            type: "POST",
+            url: "index",
+            dataType: "json"
+        })
+    });
 });
 
-//  <td>${(new Number(json_object.time * 1000)).toPrecision(3) + " ms"}</td>

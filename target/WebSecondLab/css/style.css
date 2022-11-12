@@ -96,3 +96,7 @@ form > .div{
 .no{
     background-color: red;
 }
+.my_error{
+    color: red;
+    font-size: 20px;
+}

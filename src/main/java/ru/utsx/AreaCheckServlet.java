@@ -26,6 +26,9 @@ public class AreaCheckServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher pageDispatcher = req.getRequestDispatcher("/index.jsp");
 
+        Long workTime = System.nanoTime();
+        System.out.println(workTime);
+
         HttpSession httpSession = req.getSession();
         System.out.println(httpSession.getId());
         ArrayList<Point> points = null;
