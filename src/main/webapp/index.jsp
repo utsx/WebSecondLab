@@ -102,42 +102,53 @@
         </td>
         <td class="my_svg">
             <div>
-                <svg class="chart" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <marker id='arrow-head' orient="auto" markerWidth='2' markerHeight='4' refX='0.1' refY='2'>
-                            <path d='M0,0 V4 L2,2 Z' fill="black"></path>
-                        </marker>
-                    </defs>
+                <svg id="chart" width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="250,250 250,450 150,250" fill="rgb(0, 140, 203)" />
+                    <mask id="quarter" maskUnits="userSpaceOnUse" x="250" y="50" width="200" height="200">
+                        <circle cx="250" cy="250" r="200" fill="#FFFFFF"/>
+                    </mask>
+                    <g mask="url(#quarter)">
+                        <rect x="250" y="50" width="200" height="200" fill="rgb(0, 140, 203)"/>
+                    </g>
+                    <rect x="250" y="250" width="200" height="200" fill="rgb(0, 140, 203)"/>
 
-                    <!--Фигуры-->
-                    <polygon points="0 0 0 80 -40 0" fill="rgb(0, 140, 203)"></polygon>
-                    <rect x="0" y="0" width="80" height="80" fill="rgb(0, 140, 203)"></rect>
-                    <path fill="rgb(0, 140, 203)" d="M 80 0 a 80 80 0 0 0 -80 -80 L 0 0 Z"></path>
-                    <path d="M -95 0, h 190" stroke="black" stroke-width="1" marker-end="url(#arrow-head)"></path>
-                    <path d="M 0 95, v -190" stroke="black" stroke-width="1" marker-end="url(#arrow-head)"></path>
 
-                    <!--Точки-->
-                    <circle cx="0" cy="0" r="1.5" fill="black"></circle>
-                    <circle cx="0" cy="40" r="1.5" fill="black"></circle>
-                    <circle cx="0" cy="-40" r="1.5" fill="black"></circle>
-                    <circle cx="40" cy="0" r="1.5" fill="black"></circle>
-                    <circle cx="-40" cy="0" r="1.5" fill="black"></circle>
-                    <circle cx="80" cy="0" r="1.5" fill="black"></circle>
-                    <circle cx="-80" cy="0" r="1.5" fill="black"></circle>
-                    <circle cx="0" cy="80" r="1.5" fill="black"></circle>
-                    <circle cx="0" cy="-80" r="1.5" fill="black"></circle>
+                    <line x1="250" y1="0" x2="250" y2="500" stroke-width=2 stroke="black"/>
 
-                    <!--Обозначения-->
-                    <text x="90" y="-3" class="inscription">x</text>
-                    <text x="3" y="-90" class="inscription">y</text>
-                    <text x="40" y="-3" class="inscription">R/2</text>
-                    <text x="-45" y="-3" class="inscription">-R/2</text>
-                    <text x="3" y="40" class="inscription">-R/2</text>
-                    <text x="3" y="-40" class="inscription">R/2</text>
-                    <text x="80" y="-3" class="inscription">R</text>
-                    <text x="-85" y="-3" class="inscription">-R</text>
-                    <text x="3" y="80" class="inscription">-R</text>
-                    <text x="3" y="-75" class="inscription">R</text>
+                    <text x="265" y="10"  fill="black" font-family="sans-serif" font-size="18">y</text>
+                    <line x1="250" y1="0" x2="245" y2="12" stroke-width=2 stroke="black"/>
+                    <line x1="255" y1="12" x2="250" y2="0" stroke-width=2 stroke="black"/>
+
+                    <line x1="500" y1="250" x2="0" y2="250" stroke-width=2 stroke="black"/>
+
+                    <text x="490" y="240"  fill="black" font-family="sans-serif" font-size="18">x</text>
+                    <line x1="500" y1="250" x2="488" y2="245" stroke-width=2 stroke="black"/>
+                    <line x1="488" y1="255" x2="500" y2="250" stroke-width=2 stroke="black"/>
+
+
+                    <text x="350" y="240" class="r2p" fill="black" font-family="sans-serif" font-size="18">R/2</text>
+                    <line x1="350" y1="245" x2="350" y2="255" stroke-width=2 stroke="black"/>
+
+                    <text x="260" y="150" class="r2p" fill="black" font-family="sans-serif" font-size="18">R/2</text>
+                    <line x1="245" y1="150" x2="255" y2="150" stroke-width=2 stroke="black"/>
+
+                    <text x="150" y="240" class="r2n" fill="black" font-family="sans-serif" font-size="18">-R/2</text>
+                    <line x1="150" y1="245" x2="150" y2="255" stroke-width=2 stroke="black"/>
+
+                    <text x="260" y="350" class="r2n" fill="black" font-family="sans-serif" font-size="18">-R/2</text>
+                    <line x1="255" y1="350" x2="245" y2="350" stroke-width=2 stroke="black"/>
+
+                    <text x="450" y="240" class="rp" fill="black" font-family="sans-serif" font-size="18">R</text>
+                    <line x1="450" y1="245" x2="450" y2="255" stroke-width=2 stroke="black"/>
+
+                    <text x="260" y="55" class="rp" fill="black" font-family="sans-serif" font-size="18">R</text>
+                    <line x1="245" y1="50" x2="255" y2="50" stroke-width=2 stroke="black"/>
+
+                    <text x="50" y="240" class="rn" fill="black" font-family="sans-serif" font-size="18">-R</text>
+                    <line x1="50" y1="245" x2="50" y2="255" stroke-width=2 stroke="black"/>
+
+                    <text x="260" y="450" class="rn" fill="black" font-family="sans-serif" font-size="18">-R</text>
+                    <line x1="245" y1="450" x2="255" y2="450" stroke-width=2 stroke="black"/>
                 </svg>
             </div>
         </td>

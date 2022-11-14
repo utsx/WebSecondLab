@@ -30,24 +30,24 @@ $(document).ready(function () {
         return isValidX(x) && isValidY(y) && isValidR(r);
     }
 
-
-    $('.chart').click(function (e){
+    $('#chart').click(function (e){
         $('#error').text("");
-        const rect = this.getBoundingClientRect();
-        const x = (e.clientX - rect.left) - $('.chart').width()/2;
-        const y = $('.chart').width()/2 - (e.clientY - rect.top);
-        const R = $('input[name="R"]:checked').val();
-        const X = R * x / ($('.chart').width() * 80 / 200) ;
-        const Y = R * y / ($('.chart').width() * 80 / 200);
+        const R = $('input[name="R"]:checked').val()
         if (R === undefined) {
             $('#error').text("Проверьте, что R выбран");
             return;
         }
+        const rect = this.getBoundingClientRect();
+        const x = (e.clientX - rect.left) - $('#chart').width() / 2;
+        const y = $('#chart').height() / 2 - (e.clientY - rect.top);
+        const X = (R * x / ($('#chart').width() * 0.4)).toPrecision(6);
+        const Y = (R * y / ($('#chart').height() * 0.4)).toPrecision(6);
+
         $.ajax({
             type: "GET",
             url: "index",
             data: {
-                'R': $('input[name="R"]:checked').val(),
+                'R': R,
                 'X': X,
                 'Y': Y
             },
@@ -80,8 +80,21 @@ $(document).ready(function () {
         return true;
     }
 
+    function makeSVG(tag, attrs) {
+        var el= document.createElementNS('http://www.w3.org/2000/svg', tag);
+        for (var k in attrs)
+            el.setAttribute(k, attrs[k]);
+        return el;
+    }
+
+
+    function appendPoint(data) {
+        var circle= makeSVG('circle', {cx: data.x * $('#chart').attr('width') * 0.4/ data.r + $('#chart').attr('width') / 2, cy: -data.y * $('#chart').attr('height')* 0.4/data.r + $('#chart').attr('height') / 2, r:3, fill: data.inArea ? "green" : "red"});
+        $('#chart').append(circle);
+    }
+
     function createTableRow(json_object){
-        console.log(json_object);
+        appendPoint(json_object);
         $(".history_table_body").prepend(`
 			<tr>
 				<td>${new Number(json_object.x).toPrecision(4)}</td>
